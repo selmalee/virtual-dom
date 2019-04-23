@@ -1,14 +1,14 @@
-import Element from './Element';
+import MyElement from './MyElement'
 
 const MyReactDom = {
   // 将虚拟DOM转化成真实DOM
-  render(nodeObj: Element, target: any) {
+  render(nodeObj: MyElement, target: any) {
     const node = renderDom(nodeObj)
     target.appendChild(node)
   }
 }
 
-function renderDom(nodeObj: Element) {
+function renderDom(nodeObj: MyElement) {
   const node = document.createElement(nodeObj.type)
   // 设置属性
   for (let k in nodeObj.props) {
@@ -27,8 +27,8 @@ function renderDom(nodeObj: Element) {
   }
   // 遍历子节点
   if (nodeObj.children) {
-    nodeObj.children.forEach((child: Element|string) => {
-      const childNode = child instanceof Element ? renderDom(child) : document.createTextNode(child)
+    nodeObj.children.forEach((child: MyElement|string) => {
+      const childNode = child instanceof MyElement ? renderDom(child) : document.createTextNode(child)
       node.appendChild(childNode)
     })
   }

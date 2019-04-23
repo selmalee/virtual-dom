@@ -13,7 +13,6 @@
 import MyReact from './MyReact'
 import MyReactDom from './MyReactDom'
 import './index.css'
-import * as serviceWorker from './serviceWorker';
 
 const doms = MyReact.createElement('ul', { className: 'list' }, [
     MyReact.createElement('li', { className: 'item' }, ['周杰伦']),
@@ -22,8 +21,3 @@ const doms = MyReact.createElement('ul', { className: 'list' }, [
   ]
 )
 MyReactDom.render(doms, document.getElementById('root'))
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
