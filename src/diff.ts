@@ -1,4 +1,8 @@
-import { isString } from "./utils";
+import { isString } from "./utils"
+import MyElement from './MyElement'
+
+// 所有都基于一个序号来实现
+let index = 0;
 
 /**
  * 比较新旧树
@@ -6,35 +10,33 @@ import { isString } from "./utils";
  * @param {MyElement} newTree
  * @returns
  */
-function diff(oldTree: MyElement, newTree: MyElement) {
-  let patches = {} // 存放补丁
-  const index = 0
+function diff(oldTree: MyElement|string, newTree: MyElement|string|undefined) {
+  let patches:any[] = [] // 存放补丁
   treeWalker(oldTree, newTree, index, patches) // 递归树，比较后的结果放到补丁里
   return patches
 }
 
-function treeWalker(oldNode: MyElement|string, newNode: MyElement|string|undefined, index: number, patches: any) {
+function treeWalker(oldNode: MyElement|string, newNode: MyElement|string|undefined, index: number, patches: any[]) {
   let current:object[] = [] // 当前元素的补丁
+  // 删除节点
   if (!newNode) {
-    // 删除
     current.push({type: 'REMOVE', index})
+  // 文本节点
   } else if (isString(oldNode) && isString(newNode)) {
-    // 比较文本是否一致
     if (oldNode !== newNode) {
       current.push({ type: 'TEXT', text: newNode})
     }
+  // 属性改变
   } else if (oldNode instanceof MyElement && newNode instanceof MyElement && oldNode.type === newNode.type) {
-    // 比较属性是否一致
     let attr = diffAttr(oldNode.props, newNode.props)
     if(Object.keys(attr).length > 0) {
       current.push({ type: 'ATTR', attr })
     }
-    // 遍历子节点
     if (oldNode.children && oldNode.children.length) {
       diffChildren(oldNode.children, newNode.children, patches)
     }
+  // 节点类型不一致，替换节点
   } else {
-    // 节点完全被替换
     current.push({ type: 'REPLACE', newNode })
   }
 
@@ -45,7 +47,7 @@ function treeWalker(oldNode: MyElement|string, newNode: MyElement|string|undefin
 }
 
 /**
- * 比较节点属性
+ * 比较节点属性，返回合并后的新属性对象
  * @param {*} oldAttrs
  * @param {*} newAttrs
  * @returns
@@ -67,13 +69,10 @@ function diffAttr(oldAttrs: any, newAttrs: any) {
   return patch
 }
 
-// 所有都基于一个序号来实现
-let num = 0;
-
 function diffChildren(oldChildren: (MyElement|string)[], newChildren: (MyElement|string)[]|undefined, patches: any[]) {
-  // 比较老的第一个和新的第一个
-  oldChildren.forEach((child, index) => {
-    treeWalker(child, newChildren && newChildren[index], ++num, patches)
+  // 比较子节点
+  oldChildren.forEach((child, i) => {
+    treeWalker(child, newChildren && newChildren[i], ++index, patches)
   })
 }
 
