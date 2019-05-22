@@ -1,7 +1,13 @@
 
 # virtual-dom
 虚拟dom实现
-
+ 1. 用JS对象模拟DOM（虚拟DOM）
+ 2. 把此虚拟DOM转成真实DOM并插入页面中（render）
+ 3. 如果有事件发生修改了虚拟DOM，比较两棵虚拟DOM树的差异，得到差异对象（补丁数组）（diff）
+ 4. 把差异对象（补丁数组）应用到真正的DOM树上（patch）
+  
+  
+  
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
