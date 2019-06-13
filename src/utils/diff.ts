@@ -18,15 +18,15 @@ function diff(oldTree: MyElement|string, newTree: MyElement|string|undefined) {
 
 function treeWalker(oldNode: MyElement|string, newNode: MyElement|string|undefined, index: number, patches: any[]) {
   let current:object[] = [] // 当前元素的补丁
-  // 删除节点
+  // 删除节点 REMOVE
   if (!newNode) {
     current.push({type: 'REMOVE', index})
-  // 文本节点
+  // 文本节点 TEXT
   } else if (isString(oldNode) && isString(newNode)) {
     if (oldNode !== newNode) {
       current.push({ type: 'TEXT', text: newNode})
     }
-  // 属性改变
+  // 属性改变 ATTR
   } else if (oldNode instanceof MyElement && newNode instanceof MyElement && oldNode.type === newNode.type) {
     let attr = diffAttr(oldNode.props, newNode.props)
     if(Object.keys(attr).length > 0) {
@@ -35,7 +35,7 @@ function treeWalker(oldNode: MyElement|string, newNode: MyElement|string|undefin
     if (oldNode.children && oldNode.children.length) {
       diffChildren(oldNode.children, newNode.children, patches)
     }
-  // 节点类型不一致，替换节点
+  // 节点类型不一致，替换节点 REPLACE
   } else {
     current.push({ type: 'REPLACE', newNode })
   }
