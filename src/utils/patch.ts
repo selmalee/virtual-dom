@@ -1,4 +1,4 @@
-import MyReactDom from './MyReactDom'
+import MyReactDom from '../lib/MyReactDom'
 
 let allPatches:any[]
 let index = 0

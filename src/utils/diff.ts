@@ -1,5 +1,5 @@
-import { isString } from "./utils"
-import MyElement from './MyElement'
+import { isString } from "."
+import MyElement from '../lib/MyElement'
 
 // 所有都基于一个序号来实现
 let index = 0;
