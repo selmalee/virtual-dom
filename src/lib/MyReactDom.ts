@@ -2,7 +2,7 @@ import MyElement from './MyElement'
 import { changeDoms } from '../utils/doms'
 
 const MyReactDom = {
-  render(nodeObj: MyElement, target: any) {
+  render(nodeObj: MyElement, target: HTMLElement|null) {
     const node = this.renderDom(nodeObj)
     changeDoms(node)
     if (target instanceof HTMLElement) {
